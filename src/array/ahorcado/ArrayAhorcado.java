@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- *
- * @author jose
+ * @version 1.2
+ * @author Jose Antonio Cabello Santacruz
  */
 public class ArrayAhorcado {
 
