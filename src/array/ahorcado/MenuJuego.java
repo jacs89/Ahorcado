@@ -5,17 +5,17 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * @version 1.3
+ * @version 1.4
  * @author Jose Antonio Cabello Santacruz
  * 
  * @changelog
  * - Se ha refactorizado el proyecto para mayor legibilidad, facilitar mantenimiento o nuevas implementaciones.
  * - Crear un menú previo donde:
  * - Seleccionar 2 jugadores.
+ * - Añadir el diccionario castellano.
  * 
  * @todolist
  * - Seleccionar 1 jugador.
- * - Añadir el diccionario castellano.
  * - Comprobar si la palabra escrita está en el diccionario.
  * - Si la palabra no está en el diccionario solicitar al jugador introducirla o elegir una nueva palabra.
  * - Las palabras que se escriban en este modo de juego se añadiran a un diccionario de palabras para el modo 1 jugador.
