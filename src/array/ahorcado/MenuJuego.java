@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * @version 1.4
+ * @version 1.5
  * @author Jose Antonio Cabello Santacruz
  * 
  * @changelog
