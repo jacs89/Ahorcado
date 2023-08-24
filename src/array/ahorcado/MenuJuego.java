@@ -1,11 +1,10 @@
 package array.ahorcado;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * @version 1.5
+ * @version 1.5.2
  * @author Jose Antonio Cabello Santacruz
  * 
  * @changelog
@@ -13,19 +12,22 @@ import java.util.Scanner;
  * - Crear un menú previo donde:
  * - Seleccionar 2 jugadores.
  * - Añadir el diccionario castellano.
+ * - En 2 jugadores comprobar si la palabra escrita por el jugador 1 está en el diccionario para añadirla o rechazarla.
+ * - Las palabras que se escriban en este modo de juego se añadiran a un diccionario de palabras para el modo 1 jugador.
  * 
  * @todolist
  * - Seleccionar 1 jugador.
- * - Comprobar si la palabra escrita está en el diccionario.
- * - Si la palabra no está en el diccionario solicitar al jugador introducirla o elegir una nueva palabra.
- * - Las palabras que se escriban en este modo de juego se añadiran a un diccionario de palabras para el modo 1 jugador.
  * - Tabla de puntuaciones.
+ * - Corregir error cuando no se quiere continuar con la palabra que no está en el diccionario, debe pedirse una nueva palabra
+ * - Corregir error no se muestra el tamaño de huecos de la palabra oculta
+ * - Corregir error partida termina inmediatamente cuando se introduce una letra
  * 
  */
 public class MenuJuego {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
         MenuJuego menu = new MenuJuego();
@@ -55,20 +57,20 @@ public class MenuJuego {
                         System.out.println("Saliendo del juego. ¡Hasta luego!");
                         break;                        
                     case 1:
-                        OpcionUnJugador opcionUnJugador = new OpcionUnJugador();
-                        opcionUnJugador.ejecutar();
+                        ClaseUnJugador unJugador = new ClaseUnJugador();
+                        unJugador.ejecutar();
                         break;                        
                     case 2:
-                        OpcionDosJugadores opcionDosJugadores = new OpcionDosJugadores();
-                        opcionDosJugadores.ejecutar();
+                        ClaseDosJugadores dosJugadores = new ClaseDosJugadores();
+                        dosJugadores.ejecutar();
                         break;
                     case 3:
-                        OpcionTablaPuntuaciones opcionTablaPuntuaciones = new OpcionTablaPuntuaciones();
-                        opcionTablaPuntuaciones.ejecutar();
+                        ClaseTablaPuntuaciones tablaPuntuaciones = new ClaseTablaPuntuaciones();
+                        tablaPuntuaciones.ejecutar();
                         break;                        
                     case 4:
-                        OpcionMostrarDiccionarios opcionMostrarDiccionarios = new OpcionMostrarDiccionarios();
-                        opcionMostrarDiccionarios.ejecutar();
+                        ClaseMostrarDiccionarios mostrarDiccionarios = new ClaseMostrarDiccionarios();
+                        mostrarDiccionarios.ejecutar();
                         break;                        
                     default:
                         System.out.println("Opción no válida: Por favor, seleccione una opción válida.");

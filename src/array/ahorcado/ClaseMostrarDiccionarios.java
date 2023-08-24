@@ -10,7 +10,7 @@ import java.util.Scanner;
  *
  * @author Jose Cabello jcabello86@gmail.com
  */
-class OpcionMostrarDiccionarios {
+class ClaseMostrarDiccionarios {
     public void ejecutar() throws FileNotFoundException, IOException {
         
         char letra = '\0';        
