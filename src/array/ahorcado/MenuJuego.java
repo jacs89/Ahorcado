@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * @version 1.5.2
+ * @version 1.6
  * @author Jose Antonio Cabello Santacruz
  * 
  * @changelog
@@ -14,14 +14,13 @@ import java.util.Scanner;
  * - Añadir el diccionario castellano.
  * - En 2 jugadores comprobar si la palabra escrita por el jugador 1 está en el diccionario para añadirla o rechazarla.
  * - Las palabras que se escriban en este modo de juego se añadiran a un diccionario de palabras para el modo 1 jugador.
- * 
- * @todolist
- * - Seleccionar 1 jugador.
- * - Tabla de puntuaciones.
  * - Corregir error cuando no se quiere continuar con la palabra que no está en el diccionario, debe pedirse una nueva palabra
  * - Corregir error no se muestra el tamaño de huecos de la palabra oculta
  * - Corregir error partida termina inmediatamente cuando se introduce una letra
  * 
+ * @todolist
+ * - Seleccionar 1 jugador.
+ * - Tabla de puntuaciones.
  */
 public class MenuJuego {
 
@@ -39,7 +38,7 @@ public class MenuJuego {
             int opcion;
             
             do {
-                System.out.println("    MENÚ PRINCIPAL:");
+                System.out.println("   MENÚ PRINCIPAL:");
                 System.out.println("0. Salir.");
                 System.out.println("1. Seleccionar 1 jugador.");
                 System.out.println("2. Seleccionar 2 jugadores.");
