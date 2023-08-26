@@ -40,16 +40,20 @@ public class ClaseDosJugadores {
         
         System.out.println("\n--------------PROHIBIDO SUBIR A PARTIR DE AQUI--------------------------\n");
         char[] palabraAdivinando = new char[palabraSecreta.length()]; 
+        for (int i = 0; i < palabraAdivinando.length; i++) {
+            palabraAdivinando[i] = '_';
+        }
         
         //Comienza el jugador 2 a adivinar la palabra        
-        while (!finDelJuego) {               
+        System.out.printf("\n%s, adivina la palabra, tienes %d intentos....\n", jugador2, intentos);
+        while (!finDelJuego) {    
             mostrarEstadoJuego(jugador2, intentos, abecedario, palabraAdivinando);
             char caracterCandidato = teclado.next().charAt (0);
             abecedario = eliminarCaracter (abecedario, caracterCandidato);
             boolean caracterEncontrado = actualizarPalabraAdivinando (palabraSecreta, palabraAdivinando, caracterCandidato);            
             if (!caracterEncontrado) {
                 intentos--;
-                mostrarLetrasFaltantes (abecedario);
+                //mostrarLetrasFaltantes (abecedario);
 
                 if (intentos == 0){
                     finDelJuego = true;
@@ -248,16 +252,10 @@ public class ClaseDosJugadores {
      */
         private static void mostrarEstadoJuego (String jugador, int intentos, char[] abecedario, char[] palabraAdivinando) {
             
-            if (intentos == 6) {
-                System.out.printf("%s, adivina la palabra, tiene %d intentos....\n\n", jugador, intentos);                
-            }
-            else {
-                System.out.printf("\nTe quedan %d intentos.\n", intentos);
-            }
-
+            System.out.printf("\nTe quedan %d intentos.\n", intentos);
             mostrarLetrasFaltantes (abecedario);
             mostrarPalabraAdivinando (palabraAdivinando);
-            System.out.print("Introduce una letra: ");
+            System.out.print("      Introduce una letra: ");
         }    
     
                     /**
@@ -271,7 +269,7 @@ public class ClaseDosJugadores {
                         for (char cadaCaracter : abecedario) {
                             System.out.print(cadaCaracter + " ");
                         }
-                        System.out.println();
+                        System.out.println("");
                     }
 
                     /**
@@ -281,7 +279,7 @@ public class ClaseDosJugadores {
                      */
                     private static void mostrarPalabraAdivinando(char[] palabraAdivinando) {
                         
-                        System.out.print("Así llevas la palabra adivinada: ");
+                        System.out.print("      Así llevas la palabra adivinada: ");
                         for (char cadaCaracter : palabraAdivinando) {
                             System.out.print(cadaCaracter + " ");
                         }
@@ -335,10 +333,12 @@ public class ClaseDosJugadores {
         private static void mostrarFinDelJuego(boolean ganador, String palabraSecreta) {
             
             if (ganador) {
-                System.out.printf("\nCORRECTO. TE HAS SALVADO :) \nLa palabra era %s.\n\n", palabraSecreta);
+                System.out.printf("\nCORRECTO. TE HAS SALVADO :) \nLa palabra era %s.", palabraSecreta);
             } else {
-                System.out.printf("NO TE QUEDAN MÁS OPORTUNIDADES, HAS SIDO AHORCADO :( \nLa palabra era %s.\n", palabraSecreta);
+                System.out.printf("\nNO TE QUEDAN MÁS OPORTUNIDADES, HAS SIDO AHORCADO :( \nLa palabra era %s.", palabraSecreta);
             }
+            
+            System.out.println("\n\n------------------------------------\n");
         }    
     
         /**
