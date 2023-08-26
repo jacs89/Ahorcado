@@ -16,10 +16,8 @@ public class ClaseDosJugadores {
         
             //INTRODUCCION DE VARIABLES
         
-        String jugador1, jugador2;
-        
-        int intentos = 6;
-        
+        String jugador1, jugador2;        
+        int intentos = 6;        
         boolean finDelJuego = false;        
         
         //Clase Scanner para la introduccion de datos por teclado
@@ -29,9 +27,7 @@ public class ClaseDosJugadores {
                 //CODIGO DEL PROGRAMA
                 
         System.out.println("        JUEGO DEL AHORACADO");
-        System.out.println("------------------------------------");
-        
-        
+        System.out.println("------------------------------------");        
         System.out.print("Jugador 1, introduzca su nombre: ");
         jugador1 = teclado.nextLine();        
         System.out.print("Jugador 2, introduzca su nombre: ");
@@ -42,18 +38,15 @@ public class ClaseDosJugadores {
         char[] abecedario = generarAbecedario();
         
         
-        System.out.println("--------------PROHIBIDO SUBIR A PARTIR DE AQUI--------------------------");
-
+        System.out.println("\n--------------PROHIBIDO SUBIR A PARTIR DE AQUI--------------------------\n");
         char[] palabraAdivinando = new char[palabraSecreta.length()]; 
         
         //Comienza el jugador 2 a adivinar la palabra        
-        while (!finDelJuego) {   
-            
+        while (!finDelJuego) {               
             mostrarEstadoJuego(jugador2, intentos, abecedario, palabraAdivinando);
             char caracterCandidato = teclado.next().charAt (0);
             abecedario = eliminarCaracter (abecedario, caracterCandidato);
-            boolean caracterEncontrado = actualizarPalabraAdivinando (palabraSecreta, palabraAdivinando, caracterCandidato);
-            
+            boolean caracterEncontrado = actualizarPalabraAdivinando (palabraSecreta, palabraAdivinando, caracterCandidato);            
             if (!caracterEncontrado) {
                 intentos--;
                 mostrarLetrasFaltantes (abecedario);
@@ -62,8 +55,7 @@ public class ClaseDosJugadores {
                     finDelJuego = true;
                     mostrarFinDelJuego (false,palabraSecreta);
                 }
-            }
-            
+            }            
             if (esPalabraCompleta (palabraAdivinando)) {
                 finDelJuego = true;
                 mostrarFinDelJuego(true, palabraSecreta);
@@ -83,31 +75,26 @@ public class ClaseDosJugadores {
      * @return La palabra secreta validada.
      */
         private static String obtenerPalabraSecreta (String jugador1, String jugador2, Scanner teclado) {
-        String palabraSecreta;
-        boolean palabraValida;
-
-        do {
-            System.out.printf("%s introduzca la palabra que tendrá que adivinar %s: ", jugador1, jugador2);
-            palabraSecreta = teclado.nextLine().toLowerCase();
-            palabraValida = esPalabraValida (palabraSecreta);
-
-            if (!palabraValida) {
-                System.out.println ("La palabra no es válida, por favor inténtalo de nuevo.");
-            }
-
-            if (palabraValida) {
-                
-                char letraInicial = palabraSecreta.charAt(0);
-                    
-                if  (!buscarEnDiccionario (palabraSecreta, letraInicial) ) {
-                    incluirEnDiccionario(palabraSecreta, letraInicial, teclado);
+            
+            String palabraSecreta;
+            boolean palabraValida;
+            do {
+                System.out.printf("%s introduzca la palabra que tendrá que adivinar %s: ", jugador1, jugador2);
+                palabraSecreta = teclado.nextLine().toLowerCase();
+                palabraValida = esPalabraValida (palabraSecreta);
+                if (!palabraValida) {
+                    System.out.println ("La palabra no es válida, por favor inténtalo de nuevo.");
+                }
+                if (palabraValida) {
+                    char letraInicial = palabraSecreta.charAt(0);
+                    if  (!buscarEnDiccionario (palabraSecreta, letraInicial) ) {
+                        incluirEnDiccionario(palabraSecreta, letraInicial, teclado, jugador1, jugador2);
+                    }
                 }
             }
-        }
-        while (!palabraValida);
-
-        return palabraSecreta;
-    }    
+            while (!palabraValida);
+            return palabraSecreta;
+        }    
     
                     /**
                   * Verifica si una palabra es válida (compuesta solo de letras).
@@ -116,14 +103,14 @@ public class ClaseDosJugadores {
                   * @return True si la palabra es válida, False en caso contrario.
                   */
                     private static boolean esPalabraValida (String palabra){
-
+                        
+                        boolean palabraValida = true;
                         for (char cadaCaracter: palabra.toCharArray() ){
                             if (!Character.isLetter (cadaCaracter) ){
-                                return false;
+                                palabraValida = false;
                             }
                         }
-
-                        return true;
+                        return palabraValida;
                     }
 
                     /**
@@ -134,24 +121,22 @@ public class ClaseDosJugadores {
                     * @return true si la palabra se encuentra en el diccionario, false si no se encuentra o si ocurre un error de lectura.
                     */
                     private static boolean buscarEnDiccionario (String palabra, char letraInicial) {
-                                String rutaDelArchivo = "Diccionarios/" + letraInicial + ".txt";
-                                boolean palabraEncontrada = false;
-                                try (BufferedReader reader = new BufferedReader(new FileReader (rutaDelArchivo) )) {
-
-                                    String linea;
-
-                                    while ( (linea = reader.readLine() ) != null) {
-                                        if ( palabra.equalsIgnoreCase(linea) ) {
-                                            palabraEncontrada = true;
-                                        }
-                                    }
+                        
+                        String rutaDelArchivo = "Diccionarios/" + letraInicial + ".txt";
+                        boolean palabraEncontrada = false;
+                        try (BufferedReader reader = new BufferedReader(new FileReader (rutaDelArchivo) )) {
+                            String linea;
+                            while ( (linea = reader.readLine() ) != null) {
+                                if ( palabra.equalsIgnoreCase(linea) ) {
+                                    palabraEncontrada = true;
                                 }
-                                catch (IOException e) {
-                                    System.out.println("No se pudo abrir el archivo.\n");
-                                }
-
-                                return palabraEncontrada;
                             }
+                        }
+                        catch (IOException e) {
+                            System.out.println("No se pudo abrir el archivo.\n");
+                        }
+                        return palabraEncontrada;
+                    }
 
                     /**
                     * Incluye una palabra en el diccionario correspondiente a la letra inicial dada si no está presente.
@@ -160,12 +145,13 @@ public class ClaseDosJugadores {
                     * @param letraInicial La letra inicial de la palabra que determina el diccionario.
                     * @param teclado El objeto Scanner utilizado para la entrada del usuario.
                     */
-                    private static void incluirEnDiccionario(String palabra, char letraInicial, Scanner teclado) {
+                    private static void incluirEnDiccionario(String palabra, char letraInicial, Scanner teclado, String jugador1, String jugador2) {
+                        
                         System.out.printf("La palabra %s no se encuentra en nuestro diccionario, ¿desea incluirla? (S/N)" ,palabra);
                         String decisionIncluirPalabra = obtenerRespuestaValida (teclado);
 
                         if (decisionIncluirPalabra.equalsIgnoreCase("s") ) {
-                            try (BufferedWriter writer = new BufferedWriter (new FileWriter ("Diccionarios/" + letraInicial + ".txt", true))) {
+                            try (BufferedWriter writer = new BufferedWriter (new FileWriter ("Diccionarios/" + letraInicial + ".txt", true) )) {
                                 writer.newLine();
                                 writer.write(palabra);
                                 System.out.printf("La palabra %s ha sido añadida al diccionario.\n", palabra);
@@ -176,7 +162,14 @@ public class ClaseDosJugadores {
                         }
                         else {
                             System.out.printf("Entendido, no añadiremos la palabra al diccionario. Aun así ¿Desea jugar con la palabra '%s'? (S/N)", palabra);
-                            String mantenerPalabra = obtenerRespuestaValida(teclado);
+                            String respuestaNuevaPalabra = obtenerRespuestaValida(teclado);
+                            if ( respuestaNuevaPalabra.equalsIgnoreCase("s") ) {
+                                System.out.printf("Comenzaremos el juego con la palabra %s.\n", palabra);
+                            }
+                            else {
+                                System.out.println("Entendido, no jugaremos con esa palabra.");
+                                obtenerPalabraSecreta(jugador1, jugador2, teclado);
+                            }
                         }
                     }   
                                 /**
@@ -190,13 +183,11 @@ public class ClaseDosJugadores {
                                     String respuesta;
                                     do {
                                         respuesta = teclado.nextLine();
-
                                         if (!esRespuestaValida (respuesta) ) {
                                             System.out.println("Respuesta no válida. Por favor, ingresa 'S' o 'N'.");
                                         }
                                     }
                                     while (!esRespuestaValida (respuesta) );
-
                                     return respuesta;
                                 }
                                             /**
@@ -216,26 +207,24 @@ public class ClaseDosJugadores {
     * @return Un array de caracteres representando el abecedario.
     */
         private static char[] generarAbecedario() {
-        char[] abecedario = new char[27];
-
-        for (int i = 0; i < abecedario.length; i++) {
             
-            //Antes de la ñ
-            if (i < 14){ 
-                abecedario[i] = (char) ('a' + i);                
+            char[] abecedario = new char[27];
+            for (int i = 0; i < abecedario.length; i++) {
+                //Antes de la ñ
+                if (i < 14){ 
+                    abecedario[i] = (char) ('a' + i);                
+                }
+                //La l
+                else if (i == 14){
+                    abecedario[14] = 'ñ';
+                }
+                //Despues de la ñ
+                else {
+                    abecedario[i] = (char) ('a' + i - 1);
+                }            
             }
-            //La l
-            else if (i == 14){
-                abecedario[14] = 'ñ';
-            }
-            //Despues de la ñ
-            else {
-                abecedario[i] = (char) ('a' + i - 1);
-            }            
-        }  
-
-        return abecedario;
-    }
+            return abecedario;
+        }
     
         /**
      * Inicializa el array de palabra adivinando con guiones bajos.
@@ -243,10 +232,11 @@ public class ClaseDosJugadores {
      * @param palabraAdivinando El array de caracteres que representa la palabra a adivinar.
      */
         private static void inicializarPalabraAdivinando (char[] palabraAdivinando) {
-        for (int i = 0; i < palabraAdivinando.length; i++) {
-            palabraAdivinando[i] = '_';
-        }            
-    }
+            
+            for (int i = 0; i < palabraAdivinando.length; i++) {
+                palabraAdivinando[i] = '_';
+            }            
+        }
     
         /**
      * Muestra el estado actual del juego, incluyendo letras disponibles y palabra a adivinar.
@@ -257,17 +247,18 @@ public class ClaseDosJugadores {
      * @param palabraAdivinando El array de caracteres representando la palabra a adivinar.
      */
         private static void mostrarEstadoJuego (String jugador, int intentos, char[] abecedario, char[] palabraAdivinando) {
-        if (intentos == 6) {
-            System.out.printf("%s, adivina la palabra, tiene %d intentos....\n\n", jugador, intentos);                
-        }
-        else {
-            System.out.printf("\nTe quedan %d intentos.\n", intentos);
-        }
-        
-        mostrarLetrasFaltantes (abecedario);
-        mostrarPalabraAdivinando (palabraAdivinando);
-        System.out.print("Introduce una letra: ");
-    }    
+            
+            if (intentos == 6) {
+                System.out.printf("%s, adivina la palabra, tiene %d intentos....\n\n", jugador, intentos);                
+            }
+            else {
+                System.out.printf("\nTe quedan %d intentos.\n", intentos);
+            }
+
+            mostrarLetrasFaltantes (abecedario);
+            mostrarPalabraAdivinando (palabraAdivinando);
+            System.out.print("Introduce una letra: ");
+        }    
     
                     /**
                      * Muestra las letras que quedan por adivinar.
@@ -275,9 +266,10 @@ public class ClaseDosJugadores {
                      * @param abecedario El array de caracteres representando las letras disponibles.
                      */
                     private static void mostrarLetrasFaltantes(char[] abecedario) {
+                        
                         System.out.print("Las letras que quedan por decir son: ");
-                        for (char c : abecedario) {
-                            System.out.print(c + " ");
+                        for (char cadaCaracter : abecedario) {
+                            System.out.print(cadaCaracter + " ");
                         }
                         System.out.println();
                     }
@@ -288,6 +280,7 @@ public class ClaseDosJugadores {
                      * @param palabraAdivinando El array de caracteres representando la palabra a adivinar.
                      */
                     private static void mostrarPalabraAdivinando(char[] palabraAdivinando) {
+                        
                         System.out.print("Así llevas la palabra adivinada: ");
                         for (char cadaCaracter : palabraAdivinando) {
                             System.out.print(cadaCaracter + " ");
@@ -303,15 +296,15 @@ public class ClaseDosJugadores {
      * @return El array de caracteres actualizado.
      */
         private static char[] eliminarCaracter (char[] array, char caracter) {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == caracter) {
-                array[i] = '_';
-            }
-        }
-        
-        return array;
-    }
     
+            for (int i = 0; i < array.length; i++) {
+                if (array[i] == caracter) {
+                    array[i] = '_';
+                }
+            }
+
+            return array;
+        }
         /**
      * Actualiza el array de palabra adivinando con el caracter adivinado.
      *
@@ -321,16 +314,17 @@ public class ClaseDosJugadores {
      * @return True si el caracter estaba en la palabra secreta, False en caso contrario.
      */
         private static boolean actualizarPalabraAdivinando (String palabraSecreta, char[] palabraAdivinando, char caracter) {
-        boolean caracterEncontrado = false;
-        
-        for (int i = 0; i < palabraSecreta.length(); i++) {
-            if (caracter == palabraSecreta.charAt(i)) {
-                palabraAdivinando[i] = caracter;
-                caracterEncontrado = true;
+            
+            boolean caracterEncontrado = false;
+
+            for (int i = 0; i < palabraSecreta.length(); i++) {
+                if (caracter == palabraSecreta.charAt(i)) {
+                    palabraAdivinando[i] = caracter;
+                    caracterEncontrado = true;
+                }
             }
+            return caracterEncontrado;
         }
-        return caracterEncontrado;
-    }
         
         /**
      * Muestra el mensaje de fin de juego. Luego del fin del juego se vuelve al menú de inicio
@@ -339,12 +333,13 @@ public class ClaseDosJugadores {
      * @param palabraSecreta La palabra secreta que se estaba adivinando.
      */
         private static void mostrarFinDelJuego(boolean ganador, String palabraSecreta) {
-        if (ganador) {
-            System.out.printf("\nCORRECTO. TE HAS SALVADO :) \nLa palabra era %s.\n\n", palabraSecreta);
-        } else {
-            System.out.printf("NO TE QUEDAN MÁS OPORTUNIDADES, HAS SIDO AHORCADO :( \nLa palabra era %s.\n", palabraSecreta);
-        }
-    }    
+            
+            if (ganador) {
+                System.out.printf("\nCORRECTO. TE HAS SALVADO :) \nLa palabra era %s.\n\n", palabraSecreta);
+            } else {
+                System.out.printf("NO TE QUEDAN MÁS OPORTUNIDADES, HAS SIDO AHORCADO :( \nLa palabra era %s.\n", palabraSecreta);
+            }
+        }    
     
         /**
      * Verifica si la palabra ha sido completada.
@@ -353,11 +348,13 @@ public class ClaseDosJugadores {
      * @return True si la palabra ha sido completada, False en caso contrario.
      */
         private static boolean esPalabraCompleta(char[] palabraAdivinando) {
-        for (char cadaCaracter : palabraAdivinando) {
-            if (cadaCaracter == '_') {
-                return false;
+            
+            boolean palabraAcertada = true;            
+            for (char cadaCaracter : palabraAdivinando) {
+                if (cadaCaracter == '_') {
+                    palabraAcertada = false;
+                }
             }
+            return palabraAcertada;
         }
-        return true;
-    }
     }
