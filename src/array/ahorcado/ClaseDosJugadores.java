@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import javax.swing.*;
 
 /**
  *
@@ -28,9 +29,9 @@ public class ClaseDosJugadores {
                 
         System.out.println("        JUEGO DEL AHORACADO");
         System.out.println("------------------------------------");        
-        System.out.print("Jugador 1, introduzca su nombre: ");
+        System.out.print("Verdugo, introduzca su nombre: ");
         jugador1 = teclado.nextLine();        
-        System.out.print("Jugador 2, introduzca su nombre: ");
+        System.out.print("¿Quien será juzgado? ");
         jugador2 = teclado.nextLine();
         
         //Comienza el juego con la introduccion de la palabra secreta por parte del jugador 1        
@@ -82,12 +83,16 @@ public class ClaseDosJugadores {
             
             String palabraSecreta;
             boolean palabraValida;
-            do {
-                System.out.printf("%s introduzca la palabra que tendrá que adivinar %s: ", jugador1, jugador2);
-                palabraSecreta = teclado.nextLine().toLowerCase();
+            do {                
+                palabraSecreta = JOptionPane.showInputDialog (null,
+                        String.format ("La palabra que salvará a %s será: ", jugador2 ), 
+                        "VERDUGO", JOptionPane.PLAIN_MESSAGE );
+                palabraSecreta = palabraSecreta.toLowerCase();
+                
                 palabraValida = esPalabraValida (palabraSecreta);
                 if (!palabraValida) {
-                    System.out.println ("La palabra no es válida, por favor inténtalo de nuevo.");
+                    JOptionPane.showMessageDialog(null, "La palabra no es válida, por favor inténtalo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    System.out.println ();
                 }
                 if (palabraValida) {
                     char letraInicial = palabraSecreta.charAt(0);
@@ -333,9 +338,13 @@ public class ClaseDosJugadores {
         private static void mostrarFinDelJuego(boolean ganador, String palabraSecreta) {
             
             if (ganador) {
-                System.out.printf("\nCORRECTO. TE HAS SALVADO :) \nLa palabra era %s.", palabraSecreta);
+                JOptionPane.showMessageDialog(null, 
+                        String.format ("\nCORRECTO. TE HAS SALVADO :) \nLa palabra era %s.", palabraSecreta), 
+                        "SALVADO", JOptionPane.INFORMATION_MESSAGE );
             } else {
-                System.out.printf("\nNO TE QUEDAN MÁS OPORTUNIDADES, HAS SIDO AHORCADO :( \nLa palabra era %s.", palabraSecreta);
+                JOptionPane.showMessageDialog(null, 
+                        String.format ("\nNO TE QUEDAN MÁS OPORTUNIDADES, HAS SIDO AHORCADO :( \nLa palabra era %s.", palabraSecreta), 
+                        "AHORCADO", JOptionPane.ERROR_MESSAGE );
             }
             
             System.out.println("\n\n------------------------------------\n");
